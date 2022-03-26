@@ -8,6 +8,7 @@
     </template>
 
     <h1 class="page-title">Dashboard</h1>
+    
     <b-row>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
@@ -108,53 +109,16 @@
       </b-col>
     </b-row>
     <b-row>
-        <b-col xs="12">
-          <Widget
-            title="<h5>Support <span class='fw-semi-bold'>Requests</span></h5>"
+      <b-col xs="12">
+        <Widget
+            title="<h5>Time <span class='fw-semi-bold'>Line</span></h5>"
             bodyClass="widget-table-overflow"
             customHeader
           >
-            <div class="table-responsive">
-              <table class="table table-striped table-lg mb-0 requests-table">
-                <thead>
-                  <tr class="text-muted">
-                    <th>NAME</th>
-                    <th>EMAIL</th>
-                    <th>PRODUCT</th>
-                    <th>PRICE</th>
-                    <th>DATE</th>
-                    <th>CITY</th>
-                    <th>STATUS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="row in mock.table"
-                    :key="row.id"
-                  >
-                    <td>{{row.name}}</td>
-                    <td>{{row.email}}</td>
-                    <td>{{row.product}}</td>
-                    <td>{{row.price}}</td>
-                    <td>{{row.date}}</td>
-                    <td>{{row.city}}</td>
-                    <td>
-                      <b-badge
-                        :variant="row.status === 'Pending'
-                          ? 'success'
-                          : row.status === 'Declined' ? 'danger' : 'info'"
-                        pill
-                      >
-                        {{row.status}}
-                      </b-badge>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Widget>
-        </b-col>
-      </b-row>
+          <Timeline :timeline-items="timelineItems" :message-when-no-items="messageWhenNoItems"/>
+        </Widget>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -168,10 +132,12 @@ import { Chart } from 'highcharts-vue';
 
 import moment from 'moment';
 
+import Timeline from 'timeline-vuejs'
+
 export default {
   name: 'Dashboard',
   components: {
-    Widget, BigStat, highcharts: Chart
+    Widget, BigStat, highcharts: Chart,Timeline
   },
   data() {
     return {
@@ -179,6 +145,8 @@ export default {
       ready: false,
       user: {},
       donut: {},
+      messageWhenNoItems: 'There are not items',
+      timelineItems: []
     };
   },
   created() {
@@ -186,6 +154,7 @@ export default {
       this.user = this.$store.state.user.userData
       this.alerts = this.user.alerts
       this.setDonut()
+      this.getTimeLines()
       this.ready = true
     })
   },
@@ -194,6 +163,14 @@ export default {
     ...mapActions({
       getUserData: 'user/getData',
     }),
+
+    getTimeLines(){
+      this.timelineItems = this.$store.state.user.userData.timeline.map((data)=>({
+        from: new Date(data.startDate),
+        title: data.title,
+        description: data.type,
+      }))
+    },
 
     getRandomData() {
       const arr = [];
