@@ -1,5 +1,12 @@
 <template v-if="ready">
   <div class="dashboard-page">
+
+    <template v-for="alert in alerts" >
+      <div :key="alert.type" class="alert" :class="`alert-${alert.type}`" role="alert">
+        ALERT: {{alert.text}}
+      </div>
+    </template>
+
     <h1 class="page-title">Dashboard</h1>
     <b-row>
       <b-col md="6" xl="3" sm="6" xs="12">
@@ -177,6 +184,7 @@ export default {
   created() {
     this.getUserData().then(() => {
       this.user = this.$store.state.user.userData
+      this.alerts = this.user.alerts
       this.setDonut()
       this.ready = true
     })
