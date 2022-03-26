@@ -1,3 +1,20 @@
+## Files Worked
+
+#### 1. Dashboard page
+
+(`src/pages/Dashboard`)
+#### 2. Header component
+
+(`src/components/Header`)
+#### 3. Notifications component
+
+(`src/components/Notifications`)
+#### 4. Sidebar component
+
+(`src/components/Sidebar`)
+#### 4. Create module for get user API
+
+(`src/store/user.js`)
 ## Quick Start
 
 #### 1. install node version `.nvmrc`
