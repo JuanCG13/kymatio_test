@@ -24,9 +24,9 @@
         right>
         <template slot="button-content">
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
-            <img class="rounded-circle" src="../../assets/people/a7.png" alt="..." />
+            <img class="rounded-circle" :src="user.avatar" alt="..." />
           </span>
-          <span class="px-2">Philip Smith</span>
+          <span class="px-2">{{user.first_name}} {{user.last_name}}</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
           <i class='fi flaticon-arrow-down px-2' />
           <span class="px-2" @click="logout">
@@ -48,6 +48,9 @@ export default {
   components: { Notifications },
   computed: {
     ...mapState('layout', ['sidebarClose', 'sidebarStatic']),
+    user(){
+      return this.$store.state.user.userData
+    }
   },
   methods: {
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
