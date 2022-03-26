@@ -18,4 +18,8 @@
     width: 33%;
     min-width: 65px;
   }
+
+  svg > text.highcharts-title > tspan{
+    display: none;
+  }
 }

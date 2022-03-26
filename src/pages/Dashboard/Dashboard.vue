@@ -1,7 +1,6 @@
 <template v-if="ready">
   <div class="dashboard-page">
     <h1 class="page-title">Dashboard</h1>
-    <!-- <h1 class="page-title">{{user}}</h1> -->
     <b-row>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
@@ -26,7 +25,7 @@
       </b-col>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Evolution" >
+          <Widget class="h-100 mb-0" title="Evolution">
             <highcharts :options="donut"></highcharts>
           </Widget>
         </div>
@@ -157,9 +156,10 @@ import Widget from '@/components/Widget/Widget';
 import BigStat from './components/BigStat/BigStat';
 import mock from './mock';
 import { mapActions } from 'vuex'
-// import store from '../../store/index'
 
 import { Chart } from 'highcharts-vue';
+
+import moment from 'moment';
 
 export default {
   name: 'Dashboard',
@@ -200,14 +200,14 @@ export default {
     setDonut() {
 
       let revenueData = this.user.evolution.map((data)=>({
-        label: data.date,
+        label: moment(data.date).format("MMM Do YY"),
         data: data.value,
       }));
 
-      let {danger, info, primary} = this.appConfig.colors;
+      let {danger, info, primary,success} = this.appConfig.colors;
       let series = [
         {
-          name: 'Evolution',
+          name: 'Value',
           data: revenueData.map(s => {
             return {
               name: s.label,
@@ -220,7 +220,7 @@ export default {
       this.donut = {
         chart: {
           type: 'pie',
-          height: 120
+          height: 180
         },
         credits: {
           enabled: false
@@ -244,7 +244,7 @@ export default {
             }
           }
         },
-        colors: [danger, info, primary],
+        colors: [danger, info, primary, success],
         legend: {
           align: 'right',
           verticalAlign: 'middle',
