@@ -12,7 +12,7 @@
 #### 4. Sidebar component
 
 (`src/components/Sidebar`)
-#### 4. Create module for get user API
+#### 5. Create module for get user API
 
 (`src/store/user.js`)
 ## Quick Start
