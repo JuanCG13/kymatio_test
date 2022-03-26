@@ -13,6 +13,7 @@ import router from './Routes';
 import App from './App';
 import layoutMixin from './mixins/layout';
 import Widget from './components/Widget/Widget';
+import '../node_modules/timeline-vuejs/dist/timeline-vuejs.css'
 
 Vue.use(BootstrapVue);
 Vue.use(VueTouch);
