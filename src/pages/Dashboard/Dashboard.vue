@@ -1,6 +1,7 @@
-<template>
+<template v-if="ready">
   <div class="dashboard-page">
     <h1 class="page-title">Dashboard</h1>
+    <!-- <h1 class="page-title">{{user}}</h1> -->
     <b-row>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
@@ -25,7 +26,7 @@
       </b-col>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Revenue Breakdown" >
+          <Widget class="h-100 mb-0" title="Evolution" >
             <highcharts :options="donut"></highcharts>
           </Widget>
         </div>
@@ -155,6 +156,8 @@
 import Widget from '@/components/Widget/Widget';
 import BigStat from './components/BigStat/BigStat';
 import mock from './mock';
+import { mapActions } from 'vuex'
+// import store from '../../store/index'
 
 import { Chart } from 'highcharts-vue';
 
@@ -165,10 +168,25 @@ export default {
   },
   data() {
     return {
-      mock
+      mock,
+      ready: false,
+      user: {},
+      donut: {},
     };
   },
+  created() {
+    this.getUserData().then(() => {
+      this.user = this.$store.state.user.userData
+      this.setDonut()
+      this.ready = true
+    })
+  },
   methods: {
+
+    ...mapActions({
+      getUserData: 'user/getData',
+    }),
+
     getRandomData() {
       const arr = [];
 
@@ -178,28 +196,18 @@ export default {
 
       return arr;
     },
-    getRevenueData() {
-      const data = [];
-      const seriesCount = 3;
-      const accessories = ['SMX', 'Direct', 'Networks'];
 
-      for (let i = 0; i < seriesCount; i += 1) {
-        data.push({
-          label: accessories[i],
-          data: Math.floor(Math.random() * 100) + 1,
-        });
-      }
+    setDonut() {
 
-      return data;
-    }
-  },
-  computed: {
-    donut() {
-      let revenueData = this.getRevenueData();
+      let revenueData = this.user.evolution.map((data)=>({
+        label: data.date,
+        data: data.value,
+      }));
+
       let {danger, info, primary} = this.appConfig.colors;
       let series = [
         {
-          name: 'Revenue',
+          name: 'Evolution',
           data: revenueData.map(s => {
             return {
               name: s.label,
@@ -208,7 +216,8 @@ export default {
           })
         }
       ];
-      return {
+
+      this.donut = {
         chart: {
           type: 'pie',
           height: 120
@@ -254,6 +263,8 @@ export default {
         series
       };
     }
+  },
+  computed: {
   }
 };
 </script>
