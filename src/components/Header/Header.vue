@@ -26,7 +26,7 @@
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
             <span>{{formatName}}</span>
           </span>
-          <span class="px-2">{{user.first_name}} {{user.last_name}}</span>
+          <span class="px-2">{{userData.first_name}} {{userData.last_name}}</span>
           <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">{{notificationsCount}}</span>
           <i class='fi flaticon-arrow-down px-2' />
           <span class="px-2" @click="logout">
@@ -46,25 +46,36 @@ import Notifications from '@/components/Notifications/Notifications';
 export default {
   name: 'Header',
   components: { Notifications },
+  data() {
+    return {
+      notificationsCount:0,
+      userData:{},
+      formatName:{}
+    };
+  },
   computed: {
     ...mapState('layout', ['sidebarClose', 'sidebarStatic']),
-    user(){
-      return this.$store.state.user.userData
-    },
-    notificationsCount(){
-      return this.$store.state.user.userData.notifications.length
-    },
-    formatName(){
-      let firstName = this.$store.state.user.userData.first_name
-      let lastName = this.$store.state.user.userData.last_name
-
-      let formatName = firstName.split('')[0] + lastName.split('')[0]  
-
-      return formatName
-    }
+  },
+  mounted(){
+    this.getUserData().then(() => {
+      this.notificationsCount = this.$store.state.user.userData.notifications.length;
+      this.userData = this.$store.state.user.userData;
+      this.setformatName()
+    })
   },
   methods: {
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
+    ...mapActions({
+      getUserData: 'user/getData',
+    }),
+    setformatName(){
+      let firstName = this.userData.first_name
+      let lastName = this.userData.last_name
+
+      let formatName = firstName.split('')[0] + lastName.split('')[0]  
+
+      this.formatName = formatName
+    },
     switchSidebarMethod() {
       if (!this.sidebarClose) {
         this.switchSidebar(true);
