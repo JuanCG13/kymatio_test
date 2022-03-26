@@ -1,7 +1,6 @@
 <template>
 <div :class="[{root: true, sidebarClose, sidebarStatic}, 'sing-dashboard']">
   <Sidebar />
-  <Helper />
   <div class="wrap">
     <Header />
     <v-touch class="content" @swipe="handleSwipe" :swipe-options="{direction: 'horizontal'}">
@@ -10,7 +9,6 @@
         <router-view />
       </transition>
       <footer class="contentFooter">
-        Sing App Vue Dashboard Free Template - Made by <a href="https://flatlogic.com" rel="nofollow noopener noreferrer" target="_blank">Flatlogic</a>
       </footer>
     </v-touch>
   </div>

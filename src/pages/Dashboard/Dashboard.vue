@@ -4,7 +4,7 @@
     <b-row>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Visits Today" close>
+          <Widget class="h-100 mb-0" title="Visits Today" >
             <div class="d-flex justify-content-between align-items-center mb-lg">
               <h2>4,332</h2>
               <i class="la la-arrow-right text-primary la-lg rotate-315" />
@@ -25,14 +25,14 @@
       </b-col>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Revenue Breakdown" close>
+          <Widget class="h-100 mb-0" title="Revenue Breakdown" >
             <highcharts :options="donut"></highcharts>
           </Widget>
         </div>
       </b-col>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="App Perfomance" close>
+          <Widget class="h-100 mb-0" title="App Perfomance" >
             <p class="text-muted d-flex flex-wrap">
               <small class="mr-lg d-flex align-items-center">
                 <span class="circle bg-danger text-danger mr-xs" style="font-size: 4px;">
@@ -62,7 +62,7 @@
       </b-col>
       <b-col md="6" xl="3" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Server Overview" close>
+          <Widget class="h-100 mb-0" title="Server Overview" >
             <div class="d-flex align-items-center mb-sm">
               <p class="width-150"><small>60% / 37°С / 3.3 Ghz</small></p>
               <div style="width: calc(100% - 150px)">
@@ -98,17 +98,6 @@
             </div>
           </Widget>
         </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col xs="12" lg="6" xl="4" v-for="stat in mock.bigStat" :key="stat.id">
-        <BigStat
-          :product="stat.product"
-          :color="stat.color"
-          :total="stat.total"
-          :registrations="stat.registrations"
-          :bounce="stat.bounce"
-        />
       </b-col>
     </b-row>
     <b-row>
