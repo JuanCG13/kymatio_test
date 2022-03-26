@@ -24,10 +24,10 @@
         right>
         <template slot="button-content">
           <span class="avatar rounded-circle thumb-sm float-left mr-2">
-            <img class="rounded-circle" :src="user.avatar" alt="..." />
+            <span>{{formatName}}</span>
           </span>
           <span class="px-2">{{user.first_name}} {{user.last_name}}</span>
-          <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">9</span>
+          <span class="ml-1 mr-2 circle text-white fw-bold avatar-badge">{{notificationsCount}}</span>
           <i class='fi flaticon-arrow-down px-2' />
           <span class="px-2" @click="logout">
             <i class="fi flaticon-power-1 px-3 mr-3" /> Log Out
@@ -50,6 +50,17 @@ export default {
     ...mapState('layout', ['sidebarClose', 'sidebarStatic']),
     user(){
       return this.$store.state.user.userData
+    },
+    notificationsCount(){
+      return this.$store.state.user.userData.notifications.length
+    },
+    formatName(){
+      let firstName = this.$store.state.user.userData.first_name
+      let lastName = this.$store.state.user.userData.last_name
+
+      let formatName = firstName.split('')[0] + lastName.split('')[0]  
+
+      return formatName
     }
   },
   methods: {
